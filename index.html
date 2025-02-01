@@ -21,6 +21,7 @@
     }
     header {
       margin-bottom: 20px;
+      position: relative; /* Для позиционирования кнопки языка */
     }
     h1 {
       font-size: 2.5em;
@@ -52,24 +53,111 @@
     .btn:hover {
       background-color: #2980b9;
     }
+
+    /* Стили для кнопки языка */
+    .lang-switcher {
+      position: absolute;
+      top: -40px; /* Подняли на 5px выше (-35px - 5px = -40px) */
+      left: 50%;
+      transform: translateX(-50%); /* Центрирование кнопки */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      cursor: pointer;
+      font-size: 1.2em;
+      color: #333;
+      transition: background-color 0.3s ease;
+      user-select: none; /* Запрет выделения текста */
+    }
+
+    .lang-switcher:hover {
+      background-color: #f0f0f0;
+    }
+
+    .lang-switcher::before {
+      content: "🌐"; /* Иконка глобуса */
+    }
+
+    .lang-switcher.ru::after {
+      content: "RU"; /* Текст RU для русского языка */
+      position: absolute;
+      font-size: 0.6em;
+      bottom: 5px;
+      right: 5px;
+      color: #777;
+    }
+
+    .lang-switcher.en::after {
+      content: "EN"; /* Текст EN для английского языка */
+      position: absolute;
+      font-size: 0.6em;
+      bottom: 5px;
+      right: 5px;
+      color: #777;
+    }
+
+    /* Стили для отображения языка через атрибут html[lang] */
+    [lang="en"] .ru-text,
+    [lang="ru"] .en-text {
+      display: none !important; /* Скрываем ненужный язык */
+    }
+
+    [lang="ru"] .ru-text,
+    [lang="en"] .en-text {
+      display: block !important; /* Показываем нужный язык */
+    }
+
+
   </style>
 </head>
 <body>
   <header>
-    <h1>Manu</h1>
-    <p>Ваш виртуальный консультант с искусственным интеллектом для консультаций</p>
+    <div class="lang-switcher ru" onclick="switchLanguage()"></div>
+    <h1 lang="ru" class="ru-text">Manu</h1>
+    <h1 lang="en" class="en-text">Manu</h1>
+    <p lang="ru" class="ru-text">Ваш виртуальный консультант с искусственным интеллектом для консультаций</p>
+    <p lang="en" class="en-text">Your virtual consultant powered by artificial intelligence for consultations</p>
   </header>
-  
+
   <main>
-    <p>
+    <p lang="ru" class="ru-text">
       Компания <strong>Manu</strong> объединяет передовые технологии и пользовательский опыт для того, чтобы сделать консультации доступными и эффективными.
       Наш ИИ-бот всегда готов помочь вам с вопросами, предоставляя актуальную информацию и рекомендации.
     </p>
-    <a class="btn" href="mailto:serbinfuli@gmail.com">Связаться с нами</a>
+    <p lang="en" class="en-text">
+      <strong>Manu</strong> company unites advanced technologies and user experience to make consultations accessible and effective.
+      Our AI bot is always ready to assist you with your questions, providing up-to-date information and recommendations.
+    </p>
+    <a class="btn ru-text" href="mailto:serbinfuli@gmail.com" lang="ru">Связаться с нами</a>
+    <a class="btn en-text" href="mailto:serbinfuli@gmail.com" lang="en">Contact us</a>
   </main>
-  
+
   <footer>
-    &copy; 2025 Manu. Все права защищены.
+    <p lang="ru" class="ru-text">© 2025 Manu. Все права защищены.</p>
+    <p lang="en" class="en-text">© 2025 Manu. All rights reserved.</p>
   </footer>
+
+<script>
+  function switchLanguage() {
+    const langSwitcher = document.querySelector('.lang-switcher');
+    const htmlTag = document.querySelector('html');
+
+    if (langSwitcher.classList.contains('ru')) {
+      langSwitcher.classList.remove('ru');
+      langSwitcher.classList.add('en');
+      htmlTag.lang = 'en';
+    } else {
+      langSwitcher.classList.remove('en');
+      langSwitcher.classList.add('ru');
+      htmlTag.lang = 'ru';
+    }
+  }
+</script>
+
 </body>
 </html>
